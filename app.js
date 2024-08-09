@@ -69,6 +69,49 @@ sepettekiler.forEach(({ img, name, price, piece }) => {
 });
 
 producstTotal();
+removeButton();
+pieceButton();
+
+function pieceButton() {
+  document.querySelectorAll(".adet-controller").forEach((kutu) => {
+    const plus = kutu.lastElementChild;
+    const minus = kutu.firstElementChild;
+    const adet = plus.previousElementSibling;
+
+    plus.onclick = () => {
+      adet.textContent = +adet.textContent + 1;
+      plus.closest(".card-body").querySelector(".product-total").textContent =
+        plus.closest(".card-body").querySelector(".indirim-price").textContent *
+        adet.textContent;
+
+      producstTotal();
+    };
+
+    minus.onclick = () => {
+      adet.textContent = adet.textContent - 1;
+      minus.closest(".card-body").querySelector(".product-total").textContent =
+        minus.closest(".card-body").querySelector(".indirim-price")
+          .textContent * adet.textContent;
+
+      producstTotal();
+
+      if (adet.textContent < 1) {
+        alert("sileyim mi?");
+
+        minus.closest(".card").remove();
+      }
+    };
+  });
+}
+
+function removeButton() {
+  document.querySelectorAll(".remove-product").forEach((btn) => {
+    btn.onclick = () => {
+      btn.closest(".card").remove();
+      producstTotal();
+    };
+  });
+}
 
 function producstTotal() {
   const toplam = document.querySelectorAll(".product-total");
